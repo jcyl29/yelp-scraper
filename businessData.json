@@ -1,0 +1,92 @@
+[
+  {
+    "name": "Pylos",
+    "thumbnail": "https://s3-media0.fl.yelpcdn.com/bphoto/TQxyaM_1qUaGWAd8YY577g/ms.jpg",
+    "url": "https://www.yelp.com/biz/pylos-san-carlos-2",
+    "aggregateRating": "4.5",
+    "numberOfRatings": "148",
+    "numberOfCheckins": 1,
+    "lastCheckInDate": "2024-12-17T08:00:00.000Z"
+  },
+  {
+    "name": "Soi\n                                                                                4 Bangkok Eatery",
+    "thumbnail": "https://s3-media0.fl.yelpcdn.com/bphoto/rL7LQMqcdj5qT242MsoDug/ms.jpg",
+    "url": "https://www.yelp.com/biz/soi-4-bangkok-eatery-oakland",
+    "aggregateRating": "3.9",
+    "numberOfRatings": "797",
+    "numberOfCheckins": 1,
+    "lastCheckInDate": "2024-12-16T08:00:00.000Z"
+  },
+  {
+    "name": "Hog\n                                                                                Island Oyster",
+    "thumbnail": "https://s3-media0.fl.yelpcdn.com/bphoto/5rarz5l6xDWDY2GvRHJSgQ/ms.jpg",
+    "url": "https://www.yelp.com/biz/hog-island-oyster-san-francisco-2",
+    "aggregateRating": "4.4",
+    "numberOfRatings": "7361",
+    "numberOfCheckins": 1,
+    "lastCheckInDate": "2024-12-15T08:00:00.000Z"
+  },
+  {
+    "name": "21st\n                                                                                Amendment Brewery",
+    "thumbnail": "https://s3-media0.fl.yelpcdn.com/bphoto/ohc4jCSJfDy67b-_BNA7WA/ms.jpg",
+    "url": "https://www.yelp.com/biz/21st-amendment-brewery-san-francisco-4",
+    "aggregateRating": "3.6",
+    "numberOfRatings": "2614",
+    "numberOfCheckins": 1,
+    "lastCheckInDate": "2024-12-14T08:00:00.000Z"
+  },
+  {
+    "name": "Samikcha\n                                                                                MoMo",
+    "thumbnail": "https://s3-media0.fl.yelpcdn.com/bphoto/-Qy98AUp_8NZbb-u4qm2cg/ms.jpg",
+    "url": "https://www.yelp.com/biz/samikcha-momo-san-mateo-3",
+    "aggregateRating": "4.5",
+    "numberOfRatings": "186",
+    "numberOfCheckins": 1,
+    "lastCheckInDate": "2024-12-14T08:00:00.000Z"
+  },
+  {
+    "name": "Yoshi\n                                                                                Ramen and Sushi",
+    "thumbnail": "https://s3-media0.fl.yelpcdn.com/bphoto/yxB7OknwcJnj1QE5o0Vi8w/ms.jpg",
+    "url": "https://www.yelp.com/biz/yoshi-ramen-and-sushi-daly-city-5",
+    "aggregateRating": "3.1",
+    "numberOfRatings": "481",
+    "numberOfCheckins": 1,
+    "lastCheckInDate": "2024-12-07T08:00:00.000Z"
+  },
+  {
+    "name": "Special\n                                                                                Hainan Chicken",
+    "thumbnail": "https://s3-media0.fl.yelpcdn.com/bphoto/THcbAn9U_J6yPdncY6aprg/ms.jpg",
+    "url": "https://www.yelp.com/biz/special-hainan-chicken-millbrae-3",
+    "aggregateRating": "4.0",
+    "numberOfRatings": "296",
+    "numberOfCheckins": 2,
+    "lastCheckInDate": "2024-12-02T08:00:00.000Z"
+  },
+  {
+    "name": "Chicken\n                                                                                Pho You",
+    "thumbnail": "https://s3-media0.fl.yelpcdn.com/bphoto/FUhv9yMqoKa8jKC0myojMQ/ms.jpg",
+    "url": "https://www.yelp.com/biz/chicken-pho-you-millbrae",
+    "aggregateRating": "3.1",
+    "numberOfRatings": "318",
+    "numberOfCheckins": 2,
+    "lastCheckInDate": "2024-11-25T08:00:00.000Z"
+  },
+  {
+    "name": "Himali\n                                                                                Bistro",
+    "thumbnail": "https://s3-media0.fl.yelpcdn.com/bphoto/uddGsb1vRSHcsqqxS-qoJQ/ms.jpg",
+    "url": "https://www.yelp.com/biz/himali-bistro-burlingame",
+    "aggregateRating": "4.9",
+    "numberOfRatings": "26",
+    "numberOfCheckins": 1,
+    "lastCheckInDate": "2024-11-22T08:00:00.000Z"
+  },
+  {
+    "name": "Zhen\n                                                                                Restaurant",
+    "thumbnail": "https://s3-media0.fl.yelpcdn.com/bphoto/8MuE_9OqwrYvK1d_dmm2pA/ms.jpg",
+    "url": "https://www.yelp.com/biz/zhen-restaurant-millbrae",
+    "aggregateRating": "3.6",
+    "numberOfRatings": "67",
+    "numberOfCheckins": 2,
+    "lastCheckInDate": "2024-11-18T08:00:00.000Z"
+  }
+]
