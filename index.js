@@ -1,14 +1,27 @@
 import puppeteer from "puppeteer";
+import processPage from "./processPage.js";
+import fs from "fs/promises";
 
 const YELP_LOGIN_URL = "https://www.yelp.com/login";
 const YELP_CHECKINS_URL = "https://www.yelp.com/user_details_checkins";
 const USERNAME = "USERNAME"; // Replace with your Yelp email
 const PASSWORD = "PASSWORD"; // Replace with your Yelp password
-const TIMEOUT = 6000;
+const TIMEOUT = 60000;
 
 (async () => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: false,
+    browser: "chrome",
+  });
   const page = await browser.newPage();
+  await page.setUserAgent(
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+  );
+
+  await page.setViewport({
+    width: 1920, // Set the desired width
+    height: 1080, // Set the desired height
+  });
 
   // Set default timeout for all actions
   await page.setDefaultTimeout(TIMEOUT);
@@ -16,7 +29,6 @@ const TIMEOUT = 6000;
 
   try {
     // Navigate to Yelp login page
-
     await page.goto(YELP_LOGIN_URL, { waitUntil: "domcontentloaded" });
 
     // Wait for the email and password fields to load
@@ -37,14 +49,32 @@ const TIMEOUT = 6000;
 
     // Get the page's HTML
     const pageHTML = await page.content();
-    // $("[aria-live=polite] ul")
-    //
-    // Data i would need to get from visiting the biz itself, in order of importance
-    // Addresss
-    // Phone number
-    // Business hours
 
-    console.log(pageHTML);
+    let totalPages = await page.evaluate(() => {
+      const element = document.querySelector(
+        "[aria-label*=Pagination] > div:nth-child(2)",
+      );
+      return element ? element.textContent.trim() : null;
+    });
+
+    if (totalPages) {
+      totalPages = parseInt(totalPages.replace("1 of ", ""), 10);
+    }
+
+    let result = processPage(pageHTML);
+
+    for (let i = 1; i < totalPages; i++) {
+      const startQueryParam = i * 10;
+      await page.goto(`${YELP_CHECKINS_URL}?start=${startQueryParam}`, {
+        waitUntil: "networkidle2",
+      });
+      const newPageHtml3 = await page.content();
+      console.log(`Processing page ${i + 2} of ${totalPages}`);
+      result = [...result, ...processPage(newPageHtml3)];
+    }
+
+    // Write the parsed data to a file
+    await fs.writeFile("result.json", JSON.stringify(result, null, 2));
   } catch (error) {
     console.error("Error:", error);
   } finally {
