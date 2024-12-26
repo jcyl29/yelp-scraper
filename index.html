@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Yelp Check-ins</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" async></script>
+  </head>
+  <body>
+    <dialog id="loginDialog">
+      <h2 class="title">Sign in to view your Yelp check-ins</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            required
+            placeholder="Enter your email"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            required
+            placeholder="Enter your password"
+          />
+        </div>
+        <button id="sign-in" class="btn btn-primary btn-stretch" type="submit">Sign In</button>
+        <button id="cancel" class="btn btn-muted btn-stretch">Cancel</button>
+      </form>
+    </dialog>
+
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-content">
+        <div class="spinner"></div>
+        <p>Loading your check-ins...</p>
+        <p>This can take a while, please wait...</p>
+      </div>
+    </div>
+
+    <main id="mainContent" class="checkin-container"></main>
+  </body>
+</html>

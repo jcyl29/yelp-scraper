@@ -1,16 +1,15 @@
 import puppeteer from "puppeteer";
 import processPage from "./processPage.js";
+import readlineSync from "readline-sync";
 import fs from "fs/promises";
 
 const YELP_LOGIN_URL = "https://www.yelp.com/login";
 const YELP_CHECKINS_URL = "https://www.yelp.com/user_details_checkins";
-const USERNAME = "USERNAME"; // Replace with your Yelp email
-const PASSWORD = "PASSWORD"; // Replace with your Yelp password
 const TIMEOUT = 60000;
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     browser: "chrome",
   });
   const page = await browser.newPage();
@@ -28,6 +27,11 @@ const TIMEOUT = 60000;
   await page.setDefaultNavigationTimeout(TIMEOUT);
 
   try {
+    const email = readlineSync.question("Enter your Yelp email: ");
+    const password = readlineSync.question("Enter your Yelp password: ", {
+      hideEchoBack: true,
+    });
+
     // Navigate to Yelp login page
     await page.goto(YELP_LOGIN_URL, { waitUntil: "domcontentloaded" });
 
@@ -35,8 +39,8 @@ const TIMEOUT = 60000;
     await page.waitForSelector("#ajax-login #email", { visible: true });
 
     await page.waitForSelector("#ajax-login #password", { visible: true });
-    await page.type("#ajax-login #email", USERNAME, { delay: 100 });
-    await page.type("#ajax-login #password", PASSWORD, { delay: 100 });
+    await page.type("#ajax-login #email", email, { delay: 100 });
+    await page.type("#ajax-login #password", password, { delay: 100 });
 
     // Submit the form
     await page.keyboard.press("Enter");
@@ -69,12 +73,12 @@ const TIMEOUT = 60000;
         waitUntil: "networkidle2",
       });
       const newPageHtml3 = await page.content();
-      console.log(`Processing page ${i + 2} of ${totalPages}`);
+      console.log(`Processing page ${i + 1} of ${totalPages}`);
       result = [...result, ...processPage(newPageHtml3)];
     }
 
     // Write the parsed data to a file
-    await fs.writeFile("result.json", JSON.stringify(result, null, 2));
+    await fs.writeFile("result.json", JSON.stringify({ result }, null, 2));
   } catch (error) {
     console.error("Error:", error);
   } finally {

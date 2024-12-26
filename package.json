@@ -11,7 +11,8 @@
   "dependencies": {
     "cheerio": "^1.0.0",
     "html-entities": "^2.5.2",
-    "puppeteer": "^23.11.1"
+    "puppeteer": "^23.11.1",
+    "readline-sync": "^1.4.10"
   },
   "type": "module",
   "devDependencies": {

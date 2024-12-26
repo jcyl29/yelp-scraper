@@ -33,7 +33,7 @@ const processPage = (pageHtml) => {
       return edges.map((e) => {
         const { node } = e;
         return {
-          checkInCount: e.node.checkInCount,
+          checkInCount: node.checkInCount,
           ...getCheckInDataFromId(node.lastCheckIn.__ref, parsedData),
           ...getBizDataFromId(node.business.__ref, parsedData),
         };
