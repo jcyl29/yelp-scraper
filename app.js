@@ -29,7 +29,7 @@ loginform.addEventListener("submit", async (e) => {
       const respText = await response.text();
       throw new Error(`Error fetching API endpoint. msg=${respText}`);
     }
-    // END UNCOMMENT  
+    // END UNCOMMENT
 
     if (btn.id === "cancel") {
       let data = JSON.parse(localStorage.getItem("data"));
@@ -37,7 +37,7 @@ loginform.addEventListener("submit", async (e) => {
       return;
     }
 
-    // uncomment if i want to use local testing
+    // uncomment if I want to use local testing
     // await new Promise((resolve) => {
     //   setTimeout(resolve, 1000);
     // });
@@ -45,7 +45,6 @@ loginform.addEventListener("submit", async (e) => {
     //   "http://127.0.0.1:8080/jlui_checkin_data.json",
     // );
     // END uncomment if i want to use local testing
-
 
     const resp = await response.json();
     const data = resp.result;
@@ -169,8 +168,22 @@ function renderCheckins(checkins) {
         `;
 }
 
-window.addEventListener("load", (event) => {
+window.addEventListener("load", async (event) => {
   data = localStorage.getItem("data");
+  const params = new URL(document.location.toString()).searchParams;
+  const useMe = !!params.get("me");
+
+  if (useMe) {
+    const resp = await fetch(
+      "https://raw.githubusercontent.com/jcyl29/yelp-scraper/refs/heads/main/jlui_checkin_data.json",
+    );
+    const parsedResp = await resp.json();
+    data = parsedResp.result;
+    loadingOverlay.classList.add("hide");
+    renderCheckins(data);
+    return;
+  }
+
   if (data) {
     renderCheckins(JSON.parse(data));
     loadingOverlay.classList.add("hide");

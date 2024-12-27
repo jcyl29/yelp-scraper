@@ -8,6 +8,8 @@ const YELP_CHECKINS_URL = "https://www.yelp.com/user_details_checkins";
 const TIMEOUT = 60000;
 
 (async () => {
+  console.time("scriptExecution");
+
   const browser = await puppeteer.launch({
     headless: true,
     browser: "chrome",
@@ -83,5 +85,6 @@ const TIMEOUT = 60000;
     console.error("Error:", error);
   } finally {
     await browser.close();
+    console.timeEnd('scriptExecution');
   }
 })();
