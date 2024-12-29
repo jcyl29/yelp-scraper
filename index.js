@@ -2,6 +2,7 @@ import puppeteer from "puppeteer";
 import processPage from "./processPage.js";
 import readlineSync from "readline-sync";
 import fs from "fs/promises";
+import pushToGithub from "./pushToGithub.js";
 
 const YELP_LOGIN_URL = "https://www.yelp.com/login";
 const YELP_CHECKINS_URL = "https://www.yelp.com/user_details_checkins";
@@ -33,6 +34,9 @@ const TIMEOUT = 60000;
     const password = readlineSync.question("Enter your Yelp password: ", {
       hideEchoBack: true,
     });
+    const githubToken = readlineSync.question(
+      "Enter Personal access token (classic): ",
+    );
 
     // Navigate to Yelp login page
     await page.goto(YELP_LOGIN_URL, { waitUntil: "domcontentloaded" });
@@ -81,10 +85,15 @@ const TIMEOUT = 60000;
 
     // Write the parsed data to a file
     await fs.writeFile("result.json", JSON.stringify({ result }, null, 2));
+    await pushToGithub({
+      githubToken,
+      filePath: "jlui_checkin_data.json",
+      fileContent: { result },
+    });
   } catch (error) {
     console.error("Error:", error);
   } finally {
     await browser.close();
-    console.timeEnd('scriptExecution');
+    console.timeEnd("scriptExecution");
   }
 })();

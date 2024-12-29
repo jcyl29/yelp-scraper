@@ -4,7 +4,6 @@ import { decode } from "html-entities";
 
 const YELP_LOGIN_URL = "https://www.yelp.com/login";
 const YELP_CHECKINS_URL = "https://www.yelp.com/user_details_checkins";
-const TIMEOUT = 60000;
 
 const YELP_DOMAIN = "https://www.yelp.com";
 
@@ -128,7 +127,11 @@ const processPage = (pageHtml) => {
 
 export default defineComponent({
   async run({ steps, $ }) {
-    const { email, password } = steps.trigger.event.body;
+    // uncomment if i want to use user input form for sending those
+    // as form post body fields
+    // const { email, password } = steps.trigger.event.body;
+
+    const { yelpUserEmail: email, yelpPassword: password } = process.env;
 
     if (!email || !password) {
       throw new Error("Email and password are required!");
@@ -152,7 +155,13 @@ export default defineComponent({
     await page.keyboard.press("Enter");
 
     // Wait for navigation after login
-    await page.waitForNavigation({ waitUntil: "networkidle2" });
+    try {
+      await page.waitForNavigation({ waitUntil: "networkidle2" });
+    } catch (e) {
+      console.log(
+        `failure after submitting login info. e=${JSON.stringify(e)}`,
+      );
+    }
 
     // Navigate to the Check-ins page
     await page.goto(YELP_CHECKINS_URL, { waitUntil: "networkidle2" });
@@ -183,15 +192,14 @@ export default defineComponent({
       result = [...result, ...processPage(newPageHtml3)];
     }
 
-    $.export("totalPages", totalPages);
-    $.export("result", result);
+    $.export("result", { result });
 
     // The browser needs to be closed, otherwise the step will hang
     await browser.close();
 
-    await $.respond({
-      status: 200,
-      body: { result },
-    });
+    // await $.respond({
+    //   status: 200,
+    //   body: { result },
+    // });
   },
 });
