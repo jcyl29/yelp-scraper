@@ -7,6 +7,7 @@ import pushToGithub from "./pushToGithub.js";
 const YELP_LOGIN_URL = "https://www.yelp.com/login";
 const YELP_CHECKINS_URL = "https://www.yelp.com/user_details_checkins";
 const TIMEOUT = 60000;
+const OUTPUT_FILE = "jlui_checkin_data.json";
 
 (async () => {
   console.time("scriptExecution");
@@ -84,10 +85,13 @@ const TIMEOUT = 60000;
     }
 
     // Write the parsed data to a file
-    await fs.writeFile("result.json", JSON.stringify({ result }, null, 2));
+    await fs.writeFile(
+      OUTPUT_FILE,
+      JSON.stringify({ result }, null, 2),
+    );
     await pushToGithub({
       githubToken,
-      filePath: "jlui_checkin_data.json",
+      filePath: OUTPUT_FILE,
       fileContent: { result },
     });
   } catch (error) {
