@@ -4,14 +4,14 @@ import {
   findKeyByRegex,
   getBizDataFromId,
   getCheckInDataFromId,
+  TARGET_SCRIPT_SELECTOR,
 } from "./utils.js";
 
 const processPage = (pageHtml) => {
   try {
-
     // Load HTML into Cheerio
     const $ = load(pageHtml);
-    const scriptTag = $('script[data-apollo-state][type="application/json"]');
+    const scriptTag = $(TARGET_SCRIPT_SELECTOR);
 
     // Extract and parse the JSON content
     if (scriptTag.length > 0) {
@@ -40,12 +40,12 @@ const processPage = (pageHtml) => {
       });
     } else {
       console.log("No matching <script> tag found.");
-      return {}
+      return [];
     }
   } catch (error) {
     console.error("Error processing page:", error);
-    return {}
+    return [];
   }
-}
+};
 
 export default processPage;

@@ -84,11 +84,34 @@ window.addEventListener("load", async (event) => {
         const date = new Date(currVal.lastCheckInDate);
         acc.years.add(date.getFullYear());
 
+        acc.regionCodes.add(currVal.regionCode);
+        acc.cities.add(currVal.city);
+
+        if (currVal.reviewCount > acc.highestReview.reviewCount) {
+          acc.highestReview = { ...currVal };
+        }
+
+        if (currVal.rating > acc.highestRating.rating) {
+          acc.highestRating = { ...currVal };
+        }
+
+        if (currVal.rating && currVal.rating < acc.lowestRating.rating) {
+          acc.lowestRating = { ...currVal };
+        }
+
         return acc;
       },
-      { categories: new Set(), years: new Set() },
+      {
+        categories: new Set(),
+        years: new Set(),
+        regionCodes: new Set(),
+        cities: new Set(),
+        highestReview: { reviewCount: 0 },
+        highestRating: { rating: 0 },
+        lowestRating: { rating: 5 },
+      },
     );
-    window.cats = subMenuData;
+    window.subMenuData = subMenuData;
     renderApp(data);
     initSubHeader(subMenuData);
     return;

@@ -1,8 +1,10 @@
 import puppeteer from "puppeteer";
+import { load } from "cheerio";
 import processPage from "./processPage.js";
 import readlineSync from "readline-sync";
 import fs from "fs/promises";
 import pushToGithub from "./pushToGithub.js";
+import { TARGET_SCRIPT_SELECTOR } from "./utils.js";
 
 const YELP_LOGIN_URL = "https://www.yelp.com/login";
 const YELP_CHECKINS_URL = "https://www.yelp.com/user_details_checkins";
@@ -13,7 +15,7 @@ const OUTPUT_FILE = "jlui_checkin_data.json";
   console.time("scriptExecution");
 
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
     browser: "chrome",
   });
   const page = await browser.newPage();
@@ -58,6 +60,8 @@ const OUTPUT_FILE = "jlui_checkin_data.json";
     // Navigate to the Check-ins page
     await page.goto(YELP_CHECKINS_URL, { waitUntil: "networkidle2" });
 
+    await page.reload({ bypassCache: true });
+
     // Get the page's HTML
     const pageHTML = await page.content();
 
@@ -79,16 +83,27 @@ const OUTPUT_FILE = "jlui_checkin_data.json";
       await page.goto(`${YELP_CHECKINS_URL}?start=${startQueryParam}`, {
         waitUntil: "networkidle2",
       });
-      const newPageHtml3 = await page.content();
+      var newPageHtml = await page.content();
+
+      const $ = load(newPageHtml);
+      var targetScript = $(TARGET_SCRIPT_SELECTOR);
+      for (let r = 1; r < 3; r++ ) {
+        if (!targetScript.length) {
+          console.log(`target script not found, refreshing page. Attempt=${r}`);
+          newPageHtml = await page.reload({ bypassCache: true });
+          const $ = load(newPageHtml);
+          targetScript = $(TARGET_SCRIPT_SELECTOR);
+        } else {
+          break;
+        }
+      }
+
       console.log(`Processing page ${i + 1} of ${totalPages}`);
-      result = [...result, ...processPage(newPageHtml3)];
+      result = [...result, ...processPage(newPageHtml)];
     }
 
     // Write the parsed data to a file
-    await fs.writeFile(
-      OUTPUT_FILE,
-      JSON.stringify({ result }, null, 2),
-    );
+    await fs.writeFile(OUTPUT_FILE, JSON.stringify({ result }, null, 2));
     await pushToGithub({
       githubToken,
       filePath: OUTPUT_FILE,

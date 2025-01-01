@@ -1,4 +1,6 @@
 const YELP_DOMAIN = "https://www.yelp.com";
+const TARGET_SCRIPT_SELECTOR =
+  'script[data-apollo-state][type="application/json"]';
 
 /**
  * Utility function to find the first key in an object that matches a regex pattern.
@@ -85,4 +87,10 @@ function getCheckInDataFromId(id, state) {
   };
 }
 
-export { findKeyByRegex, removeSpaces, getBizDataFromId, getCheckInDataFromId };
+export {
+  findKeyByRegex,
+  removeSpaces,
+  getBizDataFromId,
+  getCheckInDataFromId,
+  TARGET_SCRIPT_SELECTOR,
+};
