@@ -69,8 +69,10 @@ window.addEventListener("load", async (event) => {
   if (useMe) {
     const resp = await fetch(
       "https://raw.githubusercontent.com/jcyl29/yelp-scraper/refs/heads/main/jlui_checkin_data.json",
+      {cache: "no-cache"},
     );
     const parsedResp = await resp.json();
+
     data = parsedResp.result;
     loadingOverlay.classList.add("hide");
 

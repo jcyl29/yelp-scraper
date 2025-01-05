@@ -30,7 +30,7 @@ const pushToGithub = async ({ githubToken, filePath, fileContent }) => {
 
     // Create/Update file
     const putBody = {
-      message: `Updating ${filePath} via script. ${new Date().toLocaleTimeString()}`,
+      message: `Updating ${filePath} via script. ${new Date().toLocaleString()}`,
       content: Buffer.from(JSON.stringify(fileContent)).toString("base64"),
       branch,
     };

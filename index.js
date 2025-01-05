@@ -10,6 +10,7 @@ const YELP_LOGIN_URL = "https://www.yelp.com/login";
 const YELP_CHECKINS_URL = "https://www.yelp.com/user_details_checkins";
 const TIMEOUT = 60000;
 const OUTPUT_FILE = "jlui_checkin_data.json";
+const MAX_RETRIES = 20;
 
 (async () => {
   console.time("scriptExecution");
@@ -87,14 +88,19 @@ const OUTPUT_FILE = "jlui_checkin_data.json";
 
       const $ = load(newPageHtml);
       var targetScript = $(TARGET_SCRIPT_SELECTOR);
-      for (let r = 1; r < 3; r++ ) {
+      for (let r = 1; r <= MAX_RETRIES; r++) {
         if (!targetScript.length) {
           console.log(`target script not found, refreshing page. Attempt=${r}`);
-          newPageHtml = await page.reload({ bypassCache: true });
+          await page.reload({ bypassCache: true });
+          newPageHtml = await page.content();
           const $ = load(newPageHtml);
           targetScript = $(TARGET_SCRIPT_SELECTOR);
         } else {
+          console.log(`Target script found after ${r} attempts`);
           break;
+        }
+        if (r === MAX_RETRIES) {
+          throw new Error(`Max retries of ${MAX_RETRIES}`);
         }
       }
 
