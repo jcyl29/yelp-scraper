@@ -5,6 +5,7 @@ import fs from "fs/promises";
 import pushToGithub from "./pushToGithub.js";
 import { TARGET_SCRIPT_SELECTOR } from "./utils.js";
 
+const YELP_HOME_PAGE = "https://www.yelp.com";
 const YELP_CHECKINS_URL = "https://www.yelp.com/user_details_checkins";
 const OUTPUT_FILE = "jlui_checkin_data.json";
 const MAX_RETRIES = 20;
@@ -37,7 +38,7 @@ const connectToExistingBrowser = async () => {
   console.log("Connected to browser!");
   // Select a specific target
   const target = (await browser.targets()).find((t) =>
-    t.url().includes(YELP_CHECKINS_URL),
+    t.url().includes(YELP_HOME_PAGE),
   );
 
   if (!target) {
@@ -98,7 +99,8 @@ const connectToExistingBrowser = async () => {
   }
 
   // Write the parsed data to a file
-  await fs.writeFile(OUTPUT_FILE, JSON.stringify({ result }, null, 2));
+  // await fs.writeFile(OUTPUT_FILE, JSON.stringify({ result }, null, 2));
+  
   await pushToGithub({
     githubToken,
     filePath: OUTPUT_FILE,
