@@ -27,10 +27,15 @@ export function getFilteredData(filter) {
       const { categories } = d;
       for (let c of categories) {
         if (searchCategories.includes(c)) {
-          return true
+          return true;
         }
       }
-      return false
+      return false;
     });
   }
+}
+
+export function getGoogleMapsSearchUrl({ addressLine, city, zipCode }) {
+  const address = `${addressLine} ${city} ${zipCode}`.trim().replace(/\s+/g, "+"); // Replace spaces with "+"
+  return `https://www.google.com/maps/search/?api=1&query=${address}`;
 }

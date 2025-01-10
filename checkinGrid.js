@@ -1,4 +1,4 @@
-import { formatDate } from "./appUtils.js";
+import { formatDate, getGoogleMapsSearchUrl } from "./appUtils.js";
 
 const renderCheckinGrid = (checkins) => {
   const gridSelector = document.getElementById("data-grid");
@@ -53,8 +53,10 @@ const renderCheckinGrid = (checkins) => {
                             }
 
                             <div class="address">
-                                ${checkin.addressLine1}<br>
+                                <a href="${getGoogleMapsSearchUrl({ addressLine: checkin.addressLine1, city: checkin.city, zipCode: checkin.regionCode })}" target="_blank">
+                                ${checkin.addressLine1}<br />
                                 ${checkin.city}, ${checkin.regionCode}
+                                </a>
                             </div>
 
                             ${
