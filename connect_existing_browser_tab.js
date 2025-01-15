@@ -80,21 +80,20 @@ const connectToExistingBrowser = async () => {
     var targetScript = $(TARGET_SCRIPT_SELECTOR);
     for (let r = 1; r <= MAX_RETRIES; r++) {
       if (!targetScript.length) {
-        console.log(`target script not found, refreshing page. Attempt=${r}`);
+        console.log(`target script not found, refreshing page. Page=${i}, Attempt=${r}`);
         await page.reload({ bypassCache: true });
         newPageHtml = await page.content();
         const $ = load(newPageHtml);
         targetScript = $(TARGET_SCRIPT_SELECTOR);
       } else {
-        console.log(`Target script found after ${r} attempts`);
+        console.log(`Target script found after ${r} attempts, processing page ${i + 1} of ${totalPages}`);
         break;
       }
       if (r === MAX_RETRIES) {
         throw new Error(`Max retries of ${MAX_RETRIES} exceeded`);
       }
     }
-
-    console.log(`Processing page ${i + 1} of ${totalPages}`);
+    
     result = [...result, ...processPage(newPageHtml)];
   }
 
