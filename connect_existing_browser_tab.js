@@ -13,7 +13,7 @@ const githubToken = process.env.ACCESS_TOKEN;
 
 // how to get websocket url
 // Open chrome from terminal
-// /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-deing-port=9222
+// /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
 // navigate to http://localhost:9222/json/version on one of your tabs
 // alternatively curl url http://localhost:9222/json/version
 // that url should show an obj, look for webSocketDebuggerUrl
