@@ -1,7 +1,6 @@
 import puppeteer from "puppeteer";
 import { load } from "cheerio";
 import processPage from "./processPage.js";
-import fs from "fs/promises";
 import pushToGithub from "./pushToGithub.js";
 import { TARGET_SCRIPT_SELECTOR } from "./utils.js";
 
@@ -17,6 +16,8 @@ const githubToken = process.env.ACCESS_TOKEN;
 // navigate to http://localhost:9222/json/version on one of your tabs
 // alternatively curl url http://localhost:9222/json/version
 // that url should show an obj, look for webSocketDebuggerUrl
+// Assuming successful response, you can just run
+// curl -s http://localhost:9222/json/version | jq -r '.webSocketDebuggerUrl'
 const WEBSOCKET_URL =
   "ws://localhost:9222/devtools/browser/EXAMPLE_HASH";
 
