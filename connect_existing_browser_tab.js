@@ -11,13 +11,18 @@ const MAX_RETRIES = 20;
 const githubToken = process.env.ACCESS_TOKEN;
 
 // how to get websocket url
-// Open chrome from terminal
+// Manually copy user profile
+// Manually copy your user profile
+// cp -r ~/Library/Application\ Support/Google/Chrome/Default ~/chrome-debug-profile
+// /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome \
+//   --remote-debugging-port=9222 \
+//   --user-data-dir="$HOME/chrome-debug-profile"
+// Then start Chrome if it hasn't started
 // /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
-// navigate to http://localhost:9222/json/version on one of your tabs
-// alternatively curl url http://localhost:9222/json/version
-// that url should show an obj, look for webSocketDebuggerUrl
-// Assuming successful response, you can just run
-// curl -s http://localhost:9222/json/version | jq -r '.webSocketDebuggerUrl'
+// The websocket url is what follows 'DevTools listening on..."
+// TROUBLESHOOTING
+// If scraper fails to get the script data, navigate to yelp home page
+// Also disable cache in network tab of browser debugger
 const WEBSOCKET_URL =
   "ws://localhost:9222/devtools/browser/EXAMPLE_HASH";
 
@@ -62,8 +67,11 @@ const connectToExistingBrowser = async () => {
     return element ? element.textContent.trim() : null;
   });
 
-  if (totalPages) {
+  if (totalPages !== null) {
     totalPages = parseInt(totalPages.replace("1 of ", ""), 10);
+  } else {
+    console.error("could not parse html for total pages")
+    process.exit(1)
   }
 
   console.log(`Total pages ${totalPages}`);
@@ -115,4 +123,5 @@ const connectToExistingBrowser = async () => {
 // Run the function
 connectToExistingBrowser().catch((error) => {
   console.error("Error connecting to the browser:", error);
+  process.exit(1)
 });
