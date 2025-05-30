@@ -123,6 +123,6 @@ window.addEventListener("load", async (event) => {
     renderApp(JSON.parse(data));
     loadingOverlay.classList.add("hide");
   } else {
-    loginDialog.showModal();
+    // loginDialog.showModal();
   }
 });

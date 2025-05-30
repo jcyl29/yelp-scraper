@@ -16,7 +16,7 @@ export function renderApp(checkins) {
   mainContent.innerHTML = `
             <div class="header" xmlns="http://www.w3.org/1999/html">
                 <h1>Your Yelp Check-ins</h1>
-                <button class="btn btn-muted" onclick="refreshData()">Refresh Data</button>
+<!--                <button class="btn btn-muted" onclick="refreshData()">Refresh Data</button>-->
                 <div class="stats">${checkins.length} total businesses visited</div>                
             </div>
             ${renderSubHeader()}
