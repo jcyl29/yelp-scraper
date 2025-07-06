@@ -3,6 +3,7 @@ import { load } from "cheerio";
 import processPage from "./processPage.js";
 import pushToGithub from "./pushToGithub.js";
 import { TARGET_SCRIPT_SELECTOR } from "./utils.js";
+import isTokenValid from "./isTokenValid.js";
 
 const YELP_HOME_PAGE = "https://www.yelp.com";
 const YELP_CHECKINS_URL = "https://www.yelp.com/user_details_checkins";
@@ -33,6 +34,11 @@ const connectToExistingBrowser = async () => {
     throw new Error(
       "Missing Personal access token, add it as a environment variable with name ACCESS_TOKEN",
     );
+  }
+
+  if (!await isTokenValid(githubToken)) {
+    console.error("github personal token not valid, may need to create another one ");
+    process.exit(1)
   }
 
   // Replace with your actual WebSocket URL
