@@ -24,8 +24,10 @@ const githubToken = process.env.ACCESS_TOKEN;
 // TROUBLESHOOTING
 // If scraper fails to get the script data, navigate to yelp home page
 // Also disable cache in network tab of browser debugger
+
+const WEBSOCKET_UUID = 'EXAMPLE_UUID'
 const WEBSOCKET_URL =
-  "ws://localhost:9222/devtools/browser/EXAMPLE_HASH";
+  `ws://127.0.0.1:9222/devtools/browser/${WEBSOCKET_UUID}`;
 
 const connectToExistingBrowser = async () => {
   console.time("scriptExecution");
