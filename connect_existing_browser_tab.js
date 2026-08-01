@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import { load } from "cheerio";
-import processPage from "./processPage.js";
+import { processPage, getParsedDataFromHtml } from "./processPage.js";
 import pushToGithub from "./pushToGithub.js";
 import { TARGET_SCRIPT_SELECTOR } from "./utils.js";
 import isTokenValid from "./isTokenValid.js";
@@ -94,14 +94,14 @@ const connectToExistingBrowser = async () => {
     var newPageHtml = await page.content();
 
     const $ = load(newPageHtml);
-    var targetScript = $(TARGET_SCRIPT_SELECTOR);
+    let parseData = getParsedDataFromHtml($, true)
     for (let r = 1; r <= MAX_RETRIES; r++) {
-      if (!targetScript.length) {
-        console.log(`target script not found, refreshing page. Page=${i}, Attempt=${r}`);
+      if (!parseData) {
+        console.log(`target script not found from V1 or V2 methods, refreshing page. Page=${i}, Attempt=${r}`);
         await page.reload({ bypassCache: true });
         newPageHtml = await page.content();
         const $ = load(newPageHtml);
-        targetScript = $(TARGET_SCRIPT_SELECTOR);
+        parseData = getParsedDataFromHtml($)
       } else {
         console.log(`Target script found after ${r} attempts, processing page ${i + 1} of ${totalPages}`);
         break;
